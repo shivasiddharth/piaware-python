@@ -14,7 +14,7 @@ class piawarepython:
     def __init__(self):
         self.urlbase="https://www.flightaware.com/live/"
         self.adsbip="192.168.1.8"
-        self.adsbdataurl="http://"+adsbip+":8080/data/aircraft.json"
+        self.adsbdataurl="http://"+self.adsbip+":8080/data/aircraft.json"
         self.myloc = (13.05863, 80.19345)
         self.flightcoord = (0, 0)
         self.order = False
@@ -22,17 +22,17 @@ class piawarepython:
     def adsbdata(self):
         self.aircraftslist = []
         self.trackerdata = requests.get(self.adsbdataurl)
-        self.trackerdata = trackerdata.json()
+        self.trackerdata = self.trackerdata.json()
         self.recdata = self.trackerdata
         self.datalen = len(self.recdata['aircraft'])
-        for i in range(0, datalen):
+        for i in range(0, self.datalen):
             if 'lat' not in self.recdata['aircraft'][i]:
                 continue
             else:
                 self.flightcoord = (self.recdata['aircraft'][i]['lat'],
-                                    recdata['aircraft'][i]['lon'])
+                                    self.recdata['aircraft'][i]['lon'])
                 self.recdata['aircraft'][i]['distance'] = \
-                    geodesic(myloc, flightcoord).nm
+                    geodesic(self.myloc, self.flightcoord).nm
         self.dwb = self.recdata
         self.dwblen = len(self.dwb['aircraft'])
         for i in range(0, self.dwblen):
@@ -64,10 +64,10 @@ class piawarepython:
                                     key.get('flight', 0))]
         if sortby == 'flight':
             self.sortedlist = sorted(self.unsortedlist,
-                    key=alphanum_key, reverse=order)
+                    key=alphanum_key, reverse=self.order)
         else:
             self.sortedlist = sorted(self.unsortedlist, key=lambda k: \
-                    k.get(sortby, 0), reverse=order)
+                    k.get(sortby, 0), reverse=self.order)
         return self.sortedlist
 
     def adsbdatafilter(
@@ -85,7 +85,7 @@ class piawarepython:
             if self.unfilteredlist[i][filterby] > filtermin \
                 and self.unfilteredlist[i][filterby] < filtermax:
                 self.filteredlist.append(self.unfilteredlist[i])
-                if 'flight' in unfilteredlist[i]:
+                if 'flight' in self.unfilteredlist[i]:
                     self.filteredflightlist.append(self.unfilteredlist[i]['flight'
                             ])
                 else:

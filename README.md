@@ -19,7 +19,7 @@ getdata=papy.adsbdata()
 sorteddata=papy.adsbdatasort(getdata,"flight","asc")
 
 # Filter flights within 5-10 nautical miles radius from ADSB receiver
-filtereddata=papy.adsbdatafilter(getdata,"distance",5,10)
+filtereddata,filteredaircrafts=papy.adsbdatafilter(getdata,"distance",5,10)
 
 print("")    
 print("ADSB DATA")   
@@ -37,6 +37,9 @@ print("")
 print(filtereddata)   
 print("")   
 print("")  
+print(filteredaircrafts)   
+print("")   
+print("")
 ```   
 
 # Sorting keys/options  
@@ -57,5 +60,3 @@ Use "asc" to sort list in ascending order and "dec" to sort list in descending o
 "gs"          - to filter by aircraft speed  
 "mag_heading" - to filter by aircraft heading  
 "messages"    - to filter by number of messages  
-
-     
